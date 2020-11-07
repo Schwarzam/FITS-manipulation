@@ -9,7 +9,6 @@
                 "${file}",
                 "-o",
                 "${fileDirname}/${fileBasenameNoExtension}",
-                "-I/usr/include/cfitsio",
                 "-lcfitsio",
             ],
             "options": {
