@@ -9,6 +9,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include "fitsio.h"
+#include <complex.h>
 
 #include <iostream>
 using namespace std;
@@ -62,17 +63,31 @@ int main(int argc, char ** argv) {
     fits_copy_image_section(fptr, data, section, &status);
 
 
-    char *string = "CRVAL2";
+    // Get Values from header
+    char *string = "CRVAL1";
     fits_read_str(fptr, string, card, &status);
     cout << card << endl;
-    
-    char *value;
+    //    //    //
+    char* value;
     char *comment = 0;
     fits_parse_value(card, value, comment, &status);
-    double ret;
-    char *ptr;
-    ret = strtod(value, &ptr);
-    cout << ret << endl;
+    cout << value << endl;
+
+    double CRVAL1;
+    fits_read_key(fptr, TDOUBLE, "CRVAL1", &CRVAL1, NULL, &status);
+    cout << CRVAL1 << endl;
+
+    double CRVAL2;
+    fits_read_key(fptr, TDOUBLE, "CRVAL2", &CRVAL2, NULL, &status);
+    cout << CRVAL2 << endl;
+
+        double CRPIX1;
+    fits_read_key(fptr, TDOUBLE, "CRPIX1", &CRPIX1, NULL, &status);
+    cout << CRPIX1 << endl;
+
+    double CRPIX2;
+    fits_read_key(fptr, TDOUBLE, "CRPIX2", &CRPIX2, NULL, &status);
+    cout << CRPIX2 << endl;
 
     // double xpos;
     // double ypos;
