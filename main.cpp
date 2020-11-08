@@ -6,6 +6,7 @@
 //
 #include <string.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <unistd.h>
 #include "fitsio.h"
 
@@ -59,6 +60,26 @@ int main(int argc, char ** argv) {
     //Copy only section
     char *section = "1701:2000, 1701:2000";
     fits_copy_image_section(fptr, data, section, &status);
+
+
+    char *string = "CRVAL2";
+    fits_read_str(fptr, string, card, &status);
+    cout << card << endl;
+    
+    char *value;
+    char *comment = 0;
+    fits_parse_value(card, value, comment, &status);
+    double ret;
+    char *ptr;
+    ret = strtod(value, &ptr);
+    cout << ret << endl;
+
+    // double xpos;
+    // double ypos;
+    // fits_world_to_pix( xpos, ypos, double xrefval, double yrefval,
+    //    double xrefpix, double yrefpix, double xinc, double yinc,
+    //    double rot, char *coordtype, > double *xpix, double *ypix,
+    //    int *status)
 
 
     // Its necessary to close the file to save changes.
