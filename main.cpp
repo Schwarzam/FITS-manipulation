@@ -93,15 +93,15 @@ int main(int argc, char ** argv) {
     fits_read_key(fptr, TDOUBLE, "CD2_2", &CD2_2, NULL, &status);
     cout << CD2_2 << endl;
 
-    double xpos = 48.7;
-    double ypos = -(30.900001);
+    double xpos = 48.2;
+    double ypos = -30.5;
     double *xpix;
     double *ypix;
 
-    double divisao = xpos/ypos;
+    double divisao = cos(xpos/ypos);
 
-    *ypix = xpos/ypos;
-    *xpix = xpos/ypos;
+    *ypix = 1.000000;
+    *xpix = 1.000000;
 
     double xinc = CD1_1;
     double yinc = CD2_2;
@@ -109,9 +109,9 @@ int main(int argc, char ** argv) {
     double tangente = tan(divisao);
     // tangente devia dar -0.27514232
 
-    double rot = 1 / tangente;
+    double rot = 53.14487;
     cout << rot << endl;
-    fits_world_to_pix(xpos , ypos, CRVAL1, CRVAL2, CRPIX1, CRPIX2, xinc, yinc, rot, "--TAN", xpix, ypix, &status);
+    fits_world_to_pix(xpos , ypos, CRVAL1, CRVAL2, CRPIX1, CRPIX2, xinc, yinc, rot, "-TAN", xpix, ypix, &status);
     cout << *xpix << endl;
     cout << *ypix << endl;
 
