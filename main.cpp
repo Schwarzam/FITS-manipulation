@@ -52,7 +52,7 @@ int main(int argc, char ** argv) {
 
     // create a new empty FITS.
     fitsfile *data;
-    char *createfile = "!/Users/oliveira/Documents/fist-test/file.fits";
+    char *createfile = "!/home/schwarzam/FITS-manipulation/file.fits";
     fits_create_file(&data, createfile, &status);
 
     // Copy FITS
@@ -64,14 +64,10 @@ int main(int argc, char ** argv) {
 
 
     // Get Values from header
-    char *string = "CRVAL1";
-    fits_read_str(fptr, string, card, &status);
-    cout << card << endl;
+    // char *string = "CRVAL1";
+    // fits_read_str(fptr, string, card, &status);
+    // cout << card << endl;
     //    //    //
-    char* value;
-    char *comment = 0;
-    fits_parse_value(card, value, comment, &status);
-    cout << value << endl;
 
     double CRVAL1;
     fits_read_key(fptr, TDOUBLE, "CRVAL1", &CRVAL1, NULL, &status);
@@ -89,12 +85,21 @@ int main(int argc, char ** argv) {
     fits_read_key(fptr, TDOUBLE, "CRPIX2", &CRPIX2, NULL, &status);
     cout << CRPIX2 << endl;
 
-    // double xpos;
-    // double ypos;
-    // fits_world_to_pix( xpos, ypos, double xrefval, double yrefval,
-    //    double xrefpix, double yrefpix, double xinc, double yinc,
-    //    double rot, char *coordtype, > double *xpix, double *ypix,
-    //    int *status)
+    double xpos = 48.2;
+    double ypos = -(30.70000);
+    double xrefval = CRVAL1;
+    double *xpix;
+    double *ypix;
+
+    double xinc = -0.00015277777;
+    double yinc = -0.00015277777;
+
+    double rot = -57.5;
+    fits_world_to_pix(xpos , ypos, CRVAL1, CRVAL2, CRPIX1, CRPIX2, xinc, yinc, rot, "--TAN", xpix, ypix, &status);
+    cout << xpix << endl;
+    cout << ypix << endl;
+    cout << xinc << endl;
+    cout << yinc << endl;
 
 
     // Its necessary to close the file to save changes.
