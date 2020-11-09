@@ -52,16 +52,13 @@ int main(int argc, char ** argv) {
 
     // create a new empty FITS.
     fitsfile *data;
-    char *createfile = "!/home/schwarzam/FITS-manipulation/file.fits";
+    char *createfile = "!/Users/oliveira/FITS-manipulation/file.fits";
     fits_create_file(&data, createfile, &status);
 
     // Copy FITS
     // fits_copy_file(fptr, data, 1, 1, 1, &status);
 
     //Copy only section
-    char *section = "1701:2000, 1701:2000";
-    fits_copy_image_section(fptr, data, section, &status);
-
 
     // Get Values from header
     // char *string = "CRVAL1";
@@ -85,24 +82,66 @@ int main(int argc, char ** argv) {
     fits_read_key(fptr, TDOUBLE, "CRPIX2", &CRPIX2, NULL, &status);
     cout << CRPIX2 << endl;
 
-    double xpos = 48.2;
-    double ypos = -(30.70000);
-    double xrefval = CRVAL1;
+    char* pEnd;
+    double xpos = strtod(argv[2], &pEnd);
+    double ypos = strtod(argv[3], &pEnd);
+
+    double *yrefval;
+    yrefval = (double*) malloc(120);
+    double *xrefval;
+    xrefval = (double*) malloc(120);
+    
+    double *xrefpix;
+    xrefpix = (double*) malloc(120);
+    double *yrefpix;
+    yrefpix = (double*) malloc(120);
+
     double *xpix;
+    xpix = (double*) malloc(120);
     double *ypix;
+    ypix = (double*) malloc(120);
 
-    double xinc = -0.00015277777;
-    double yinc = -0.00015277777;
+    double *rot;
+    rot = (double*) malloc(120);
+    char *coordtype;
 
-    double rot = -57.5;
-    fits_world_to_pix(xpos , ypos, CRVAL1, CRVAL2, CRPIX1, CRPIX2, xinc, yinc, rot, "--TAN", xpix, ypix, &status);
-    cout << xpix << endl;
-    cout << ypix << endl;
-    cout << xinc << endl;
-    cout << yinc << endl;
+    double *xinc;
+    xinc = (double*) malloc(120);
+    double *yinc;
+    yinc = (double*) malloc(120);
 
+    fits_read_img_coord(fptr, xrefval, yrefval, xrefpix, yrefpix, xinc, yinc, rot, coordtype, &status);
 
+    
+    //fits_world_to_pix(xpos , ypos, CRVAL1, CRVAL2, CRPIX1, CRPIX2, xinc, yinc, rot, "--TAN", xpix, ypix, &status);
+    cout << *xrefval << endl;
+    cout << *yrefval << endl;
+    cout << *xinc << endl;
+    cout << *yinc << endl;
+    cout << *rot << endl;
+    cout << coordtype <<endl;
+
+    double x = *xinc;
+    double y = *yinc;
+    double refvalx = *xrefval;
+    double refvaly = *yrefval;
+    double refpixx = *xrefpix;
+    double refpixy = *yrefpix;
+    double incx = *xinc;
+    double incyy = *yinc;
+    double rott = *rot;
+
+    fits_world_to_pix(xpos , ypos, refvalx, refvaly, refpixx, refpixy, incx, incyy, rott, coordtype, xpix, ypix, &status);
+    cout << *xpix << endl;
+    cout << *ypix <<endl;
     // Its necessary to close the file to save changes.
+
+    std::ostringstream strs;
+    strs << *xpix;
+    std::string str = strs.str();
+
+    char *section = "9718:9918, 6129:6329";
+    fits_copy_image_section(fptr, data, section, &status);
     fits_close_file(data, &status);
 
 

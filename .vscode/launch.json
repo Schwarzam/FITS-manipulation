@@ -10,8 +10,10 @@
             "request": "launch",
             "program": "${fileDirname}/${fileBasenameNoExtension}",
             "args": [
-                "/home/schwarzam/Downloads/SPLUS-s24s32_R_swp.fz",
                 "/Users/oliveira/Downloads/SPLUS-s24s32_R_swp.fz",
+                "47.965579",
+                "-30.788664",
+                "/home/schwarzam/Downloads/SPLUS-s24s32_R_swp.fz",
                 "/Users/oliveira/Downloads/G_stamps/SPLUS.STRIPE82-0170.28780.griz_G.fits",
             ],
             "targetArchitecture": "x86_64",
@@ -25,6 +27,8 @@
             "cwd": "${workspaceFolder}",
             "environment": [],
             "externalConsole": false,
+            "MIMode": "lldb",
+            "miDebuggerPath": "/Users/oliveira/.vscode/extensions/ms-vscode.cpptools-1.1.0/debugAdapters/lldb-mi/bin/lldb-mi"
 
         }
     ]
