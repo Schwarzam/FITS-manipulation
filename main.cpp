@@ -85,22 +85,35 @@ int main(int argc, char ** argv) {
     fits_read_key(fptr, TDOUBLE, "CRPIX2", &CRPIX2, NULL, &status);
     cout << CRPIX2 << endl;
 
-    double xpos = 48.2;
-    double ypos = -(30.70000);
-    double xrefval = CRVAL1;
+    double CD1_1;
+    fits_read_key(fptr, TDOUBLE, "CD1_1", &CD1_1, NULL, &status);
+    cout << CD1_1 << endl;
+
+    double CD2_2;
+    fits_read_key(fptr, TDOUBLE, "CD2_2", &CD2_2, NULL, &status);
+    cout << CD2_2 << endl;
+
+    double xpos = 48.7;
+    double ypos = -(30.900001);
     double *xpix;
     double *ypix;
 
-    double xinc = -0.00015277777;
-    double yinc = -0.00015277777;
+    double divisao = xpos/ypos;
 
-    double rot = -57.5;
+    *ypix = xpos/ypos;
+    *xpix = xpos/ypos;
+
+    double xinc = CD1_1;
+    double yinc = CD2_2;
+
+    double tangente = tan(divisao);
+    // tangente devia dar -0.27514232
+
+    double rot = 1 / tangente;
+    cout << rot << endl;
     fits_world_to_pix(xpos , ypos, CRVAL1, CRVAL2, CRPIX1, CRPIX2, xinc, yinc, rot, "--TAN", xpix, ypix, &status);
-    cout << xpix << endl;
-    cout << ypix << endl;
-    cout << xinc << endl;
-    cout << yinc << endl;
-
+    cout << *xpix << endl;
+    cout << *ypix << endl;
 
     // Its necessary to close the file to save changes.
     fits_close_file(data, &status);
