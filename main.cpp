@@ -45,9 +45,9 @@ int main(int argc, char ** argv) {
 
     // nkeys
     fits_get_hdrspace(fptr, &nkeys, NULL, &status);
-    for (ii = 1; ii <= nkeys; ii++)  {
+    for (ii = 1; ii <= 10; ii++)  {
       fits_read_record(fptr, ii, card, &status); /* read keyword */
-      printf("%s\n", card);
+      //printf("%s\n", card);
     }
 
     // create a new empty FITS.
@@ -67,20 +67,20 @@ int main(int argc, char ** argv) {
     //    //    //
 
     double CRVAL1;
-    fits_read_key(fptr, TDOUBLE, "CRVAL1", &CRVAL1, NULL, &status);
-    cout << CRVAL1 << endl;
+    // fits_read_key(fptr, TDOUBLE, "CRVAL1", &CRVAL1, NULL, &status);
+    // cout << CRVAL1 << endl;
 
     double CRVAL2;
-    fits_read_key(fptr, TDOUBLE, "CRVAL2", &CRVAL2, NULL, &status);
-    cout << CRVAL2 << endl;
+    // fits_read_key(fptr, TDOUBLE, "CRVAL2", &CRVAL2, NULL, &status);
+    // cout << CRVAL2 << endl;
 
-        double CRPIX1;
-    fits_read_key(fptr, TDOUBLE, "CRPIX1", &CRPIX1, NULL, &status);
-    cout << CRPIX1 << endl;
+    double CRPIX1;
+    // fits_read_key(fptr, TDOUBLE, "CRPIX1", &CRPIX1, NULL, &status);
+    // cout << CRPIX1 << endl;
 
     double CRPIX2;
-    fits_read_key(fptr, TDOUBLE, "CRPIX2", &CRPIX2, NULL, &status);
-    cout << CRPIX2 << endl;
+    // fits_read_key(fptr, TDOUBLE, "CRPIX2", &CRPIX2, NULL, &status);
+    // cout << CRPIX2 << endl;
 
     char* pEnd;
     double xpos = strtod(argv[2], &pEnd);
@@ -111,7 +111,6 @@ int main(int argc, char ** argv) {
     yinc = (double*) malloc(120);
 
     fits_read_img_coord(fptr, xrefval, yrefval, xrefpix, yrefpix, xinc, yinc, rot, coordtype, &status);
-
     
     //fits_world_to_pix(xpos , ypos, CRVAL1, CRVAL2, CRPIX1, CRPIX2, xinc, yinc, rot, "--TAN", xpix, ypix, &status);
     cout << *xrefval << endl;
@@ -134,16 +133,33 @@ int main(int argc, char ** argv) {
     fits_world_to_pix(xpos , ypos, refvalx, refvaly, refpixx, refpixy, incx, incyy, rott, coordtype, xpix, ypix, &status);
     cout << *xpix << endl;
     cout << *ypix <<endl;
-    // Its necessary to close the file to save changes.
+    
 
     std::ostringstream strs;
     strs << *xpix;
     std::string str = strs.str();
 
-    char *section = "9718:9918, 6129:6329";
-    fits_copy_image_section(fptr, data, section, &status);
-    fits_close_file(data, &status);
+    int xpixx = (int) *xpix;
+    int ypixx = (int) *ypix;
 
+    int size = (int) strtod(argv[4], &pEnd);
+    int Xstart = xpixx - (size/2);
+    int Xend = xpixx + (size/2);
+
+    int Ystart = ypixx - (size/2);
+    int Yend = ypixx + (size/2);
+
+    std::stringstream ss;
+    ss << Xstart << ":" << Xend << "," << Ystart << ":" << Yend;
+    string newstr = ss.str();
+
+    char *section = const_cast<char*>(newstr.c_str());
+
+    //char *section = "8397:8797,6155:6555";
+    fits_copy_image_section(fptr, data, section, &status);
+
+    // Its necessary to close the file to save changes.
+    fits_close_file(data, &status);
 
     printf("END\n\n");  /* terminate listing with END */
     fits_close_file(fptr, &status);
