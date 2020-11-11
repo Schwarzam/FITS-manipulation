@@ -52,7 +52,8 @@ int main(int argc, char ** argv) {
 
     // create a new empty FITS.
     fitsfile *data;
-    char *createfile = "!/Users/oliveira/FITS-manipulation/file.fits";
+    //char *createfile = "!/Users/oliveira/FITS-manipulation/file.fits";
+    char *createfile = "!/home/gustavo/django/FITS-manipulation/file.fits";
     fits_create_file(&data, createfile, &status);
 
     // Copy FITS
