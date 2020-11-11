@@ -35,7 +35,7 @@ int main(int argc, char ** argv) {
     fits_get_hdu_num(fptr, &currhdu);
     cout << "Current HDU:";cout << currhdu <<endl;
 
-    //Go to different HDU 
+    //Go to different HDU
     int *hdutype = NULL;
     int nmove = 1;
     fits_movrel_hdu(fptr, nmove, hdutype, &status);
@@ -90,7 +90,7 @@ int main(int argc, char ** argv) {
     yrefval = (double*) malloc(120);
     double *xrefval;
     xrefval = (double*) malloc(120);
-    
+
     double *xrefpix;
     xrefpix = (double*) malloc(120);
     double *yrefpix;
@@ -103,7 +103,7 @@ int main(int argc, char ** argv) {
 
     double *rot;
     rot = (double*) malloc(120);
-    char *coordtype;
+    char coordtype[16];
 
     double *xinc;
     xinc = (double*) malloc(120);
@@ -111,7 +111,7 @@ int main(int argc, char ** argv) {
     yinc = (double*) malloc(120);
 
     fits_read_img_coord(fptr, xrefval, yrefval, xrefpix, yrefpix, xinc, yinc, rot, coordtype, &status);
-    
+
     //fits_world_to_pix(xpos , ypos, CRVAL1, CRVAL2, CRPIX1, CRPIX2, xinc, yinc, rot, "--TAN", xpix, ypix, &status);
     cout << *xrefval << endl;
     cout << *yrefval << endl;
@@ -133,7 +133,7 @@ int main(int argc, char ** argv) {
     fits_world_to_pix(xpos , ypos, refvalx, refvaly, refpixx, refpixy, incx, incyy, rott, coordtype, xpix, ypix, &status);
     cout << *xpix << endl;
     cout << *ypix <<endl;
-    
+
 
     std::ostringstream strs;
     strs << *xpix;
@@ -144,14 +144,30 @@ int main(int argc, char ** argv) {
 
     int size = (int) strtod(argv[4], &pEnd);
     int Xstart = xpixx - (size/2);
-    int Xend = xpixx + (size/2);
+    int Xend = xpixx + (size/2) - 1;
+
+    if (Xstart < 0){
+      Xstart = 0;
+    }
+    if (Xend > 11000){
+      Xend = 11000;
+    }
 
     int Ystart = ypixx - (size/2);
-    int Yend = ypixx + (size/2);
+    int Yend = ypixx + (size/2) - 1;
+
+    if (Ystart < 0){
+      Ystart = 0;
+    }
+    if (Yend > 11000){
+      Yend = 11000;
+    }
 
     std::stringstream ss;
     ss << Xstart << ":" << Xend << "," << Ystart << ":" << Yend;
     string newstr = ss.str();
+
+    cout << newstr <<endl;
 
     char *section = const_cast<char*>(newstr.c_str());
 
