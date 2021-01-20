@@ -148,20 +148,20 @@ int main(int argc, char ** argv) {
     int Xend = xpixx + (size/2) - 1;
 
     if (Xstart < 0){
-      Xstart = 0;
+      Xstart = 1;
     }
     if (Xend > 11000){
-      Xend = 11000;
+      Xend = 10999;
     }
 
     int Ystart = ypixx - (size/2);
     int Yend = ypixx + (size/2) - 1;
 
     if (Ystart < 0){
-      Ystart = 0;
+      Ystart = 1;
     }
     if (Yend > 11000){
-      Yend = 11000;
+      Yend = 10999;
     }
 
     std::stringstream ss;

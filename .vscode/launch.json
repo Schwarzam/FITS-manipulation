@@ -10,11 +10,11 @@
             "request": "launch",
             "program": "${fileDirname}/${fileBasenameNoExtension}",
             "args": [
-                "/home/schwarzam/Downloads/SPLUS-s24s32_R_swp.fz",
-                "48.182994",
-                "-30.770489",
-                "400",
-                "!/home/schwarzam/FITS-manipulation/Files/file.fits",
+                "/Users/gustavo/Documents/FITS/SPLUS-s25s35_R_swp.fz",
+                "55.120833",
+                "-31.8625",
+                "100",
+                "!/Users/gustavo/Documents/FITS/file.fits",
                 "/Users/oliveira/Downloads/SPLUS-s24s32_R_swp.fz",
                 "/Users/oliveira/Downloads/G_stamps/SPLUS.STRIPE82-0170.28780.griz_G.fits",
             ],
@@ -29,9 +29,8 @@
             "cwd": "${workspaceFolder}",
             "environment": [],
             "externalConsole": false,
-            //"MIMode": "lldb",
-            //"miDebuggerPath": "/Users/oliveira/.vscode/extensions/ms-vscode.cpptools-1.1.0/debugAdapters/lldb-mi/bin/lldb-mi"
-
+            "MIMode": "lldb",
+            // "miDebuggerPath": "/Users/gustavo/.vscode/extensions/ms-vscode.cpptools-1.1.0/debugAdapters/lldb-mi/bin/lldb-mi"
         }
     ]
 }
