@@ -5,6 +5,9 @@
 
     //./main "/media/gustavo/Seagate Expansion Drive/all_coadded/STRIPE82-0002/STRIPE82-0002_F378_swpweight.fz" 0.3 0.3 200 /home/gustavo/Documents/file.fits
     
+
+    //./main "/Volumes/Seagate Expansion Drive/all_coadded/STRIPE82-0002/STRIPE82-0002_F378_swpweight.fz" 0.3 0.3 200 /Users/gustavo/Documents/file.fits
+
     "version": "0.2.0",
     "configurations": [
         {
