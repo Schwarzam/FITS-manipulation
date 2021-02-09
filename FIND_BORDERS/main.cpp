@@ -3,8 +3,11 @@
 #include <iostream>
 #include <stdlib.h>
 #include "fitsio.h"
+#include <vector>
+using std::vector; 
 
 using namespace std;
+
 
 int main(int argc, char *argv[]){   
     fitsfile *fptr;   /* FITS file pointer, defined in fitsio.h */
@@ -17,8 +20,10 @@ int main(int argc, char *argv[]){
     double *pixels;
     char format[20], hdformat[20];
 
+    vector<int> arrX;
+    vector<int> arrY;
 
-    if (!fits_open_file(&fptr, "/Users/oliveira/Downloads/SPLUS-s37s37_R_swp.fz", READONLY, &status))
+    if (!fits_open_file(&fptr, "/Users/oliveira/Documents/SPLUS-n06s01_F395_swpweight.fz", READONLY, &status))
     
         fits_get_num_hdus(fptr, &hdunums, &status);
         cout << "number of HDUs:";cout << hdunums << endl;
@@ -66,33 +71,77 @@ int main(int argc, char *argv[]){
             int Ycord = 0;
 
             int counted = 0;
+            lastpixel = 0;
+
+            double sum = 0;
+            int count_to_mean = 0;
+            for (fpixel[1] = naxes[1]; fpixel[1] >= 1; fpixel[1]--){
+                if (fits_read_pix(fptr, TDOUBLE, fpixel, naxes[0], NULL, pixels, NULL, &status) ){  /* read row of pixels */
+                  break;  /* jump out of loop on error */
+                }
+                for (ii = 0; ii < naxes[0]; ii++){
+                    count_to_mean ++;
+                    sum = sum + pixels[ii];
+                }     
+            }
+            float mean = 0;
+            mean = sum / count_to_mean;
+            cout << mean << " " << sum << " " << count_to_mean << " " << endl;
+
             for (fpixel[1] = naxes[1]; fpixel[1] >= 1; fpixel[1]--){
                 if (fits_read_pix(fptr, TDOUBLE, fpixel, naxes[0], NULL, pixels, NULL, &status) ){  /* read row of pixels */
                   break;  /* jump out of loop on error */
                 }
 
                 rowsum = 0;
-                lastpixel = 0;
-                Xcount ++;
+                
+                Ycount ++;
 
-                Ycount = 0;
+                Xcount = 0;
                 for (ii = 0; ii < naxes[0]; ii++){
-                    lastpixel = pixels[ii];
-                    Ycount ++;
-                    if (counted != 1 && lastpixel == 0 && pixels[ii] != 0){
+                    // cout << lastpixel << endl;
+                    Xcount ++;
+
+                    if (lastpixel < mean-400 && pixels[ii] > mean){
                         Xcord = Xcount;
                         Ycord = Ycount;
 
-                        counted = 1;
-                    }
+                        arrX.push_back(Xcount);
+                        arrY.push_back(Ycount);
+                        counted = 1;            
+                    } 
+
+                    if (lastpixel > mean && pixels[ii] < mean-400){
+                        Xcord = Xcount;
+                        Ycord = Ycount;
+
+                        arrX.push_back(Xcount);
+                        arrY.push_back(Ycount);
+                        counted = 1;            
+                    } 
 
 
+                    lastpixel = pixels[ii];
                     rowsum = rowsum + pixels[ii];
                 }    
                 
             }
             free(pixels);
             cout << Xcord << " " << Ycord << " " << Ycount << endl;
+
+            cout << "X_array: ";
+            for (vector<int>::const_iterator i = arrX.begin(); i != arrX.end(); ++i){
+                cout << *i << " ";
+            }
+            cout << "\n";
+
+            cout << "Y_array: ";
+            for (vector<int>::const_iterator i = arrY.begin(); i != arrY.end(); ++i){
+                cout << *i << " ";
+            }
+            cout << "\n";
+
+            
           }
         }
         fits_close_file(fptr, &status);
