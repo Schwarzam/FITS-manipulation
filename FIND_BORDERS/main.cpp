@@ -91,11 +91,8 @@ int main(int argc, char *argv[]){
                 if (fits_read_pix(fptr, TDOUBLE, fpixel, naxes[0], NULL, pixels, NULL, &status) ){  /* read row of pixels */
                   break;  /* jump out of loop on error */
                 }
-
                 rowsum = 0;
-                
                 Ycount ++;
-
                 Xcount = 0;
                 for (ii = 0; ii < naxes[0]; ii++){
                     // cout << lastpixel << endl;
