@@ -8,7 +8,6 @@ using std::vector;
 
 using namespace std;
 
-
 int main(int argc, char *argv[]){   
     fitsfile *fptr;   /* FITS file pointer, defined in fitsio.h */
     fptr = (fitsfile*)malloc(100000);
