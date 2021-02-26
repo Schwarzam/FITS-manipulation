@@ -173,54 +173,54 @@ int main(int argc, char ** argv) {
 
     char *section = const_cast<char*>(newstr.c_str());
 
-    int bitpix, naxis, anynul, loop;
-    long naxes[2] = {1,1}, fpixel[2] = {1,1};
-    double *pixels;
-    char format[20], hdformat[20];
+    // int bitpix, naxis, anynul, loop;
+    // long naxes[2] = {1,1}, fpixel[2] = {1,1};
+    // double *pixels;
+    // char format[20], hdformat[20];
 
-    int count = 0;
-    double sum = 0;
+    // int count = 0;
+    // double sum = 0;
 
-    if (!fits_get_img_param(fptr, 2, &bitpix, &naxis, naxes, &status) )
-        {
-          if (naxis > 2 || naxis == 0)
-             printf("Error: only 1D or 2D images are supported\n");
-          else
-          {
-            /* get memory for 1 row */
-            pixels = (double *) malloc(naxes[0] * sizeof(double));
+    // if (!fits_get_img_param(fptr, 2, &bitpix, &naxis, naxes, &status) )
+    //     {
+    //       if (naxis > 2 || naxis == 0)
+    //          printf("Error: only 1D or 2D images are supported\n");
+    //       else
+    //       {
+    //         /* get memory for 1 row */
+    //         pixels = (double *) malloc(naxes[0] * sizeof(double));
 
-            if (pixels == NULL) {
-                printf("Memory allocation error\n");
-                return(1);
-            }
+    //         if (pixels == NULL) {
+    //             printf("Memory allocation error\n");
+    //             return(1);
+    //         }
             
             
-            for (fpixel[1] = (ypixx + 32); fpixel[1] >= (ypixx - 31); fpixel[1]--){
-                if (fits_read_pix(fptr, TDOUBLE, fpixel, naxes[0], NULL,
-                    pixels, NULL, &status) )  /* read row of pixels */
-                break;  /* jump out of loop on error */
+    //         for (fpixel[1] = (ypixx + 32); fpixel[1] >= (ypixx - 31); fpixel[1]--){
+    //             if (fits_read_pix(fptr, TDOUBLE, fpixel, naxes[0], NULL,
+    //                 pixels, NULL, &status) )  /* read row of pixels */
+    //             break;  /* jump out of loop on error */
 
-                 /* print row number */
+    //              /* print row number */
                 
-                for (loop = (xpixx - 32); loop <= (xpixx + 31); loop++){
-                    count ++;
-                    sum = sum + pow(pixels[loop], 2);
-                }
+    //             for (loop = (xpixx - 32); loop <= (xpixx + 31); loop++){
+    //                 count ++;
+    //                 sum = sum + pow(pixels[loop], 2);
+    //             }
                     
-            }
+    //         }
 
-            float mean;
-            mean = sum / count;
-            cout << "MEAN_CENTER 64x64:" << mean << endl;
+    //         float mean;
+    //         mean = sum / count;
+    //         cout << "MEAN_CENTER 64x64:" << mean << endl;
 
-            float rms;
-            rms = sqrt(mean);
+    //         float rms;
+    //         rms = sqrt(mean);
 
-            cout << "RMS: " << rms << endl;
-            free(pixels);
-          }
-        }
+    //         cout << "RMS: " << rms << endl;
+    //         free(pixels);
+    //       }
+    //     }
 
 
     //char *section = "8397:8797,6155:6555";
