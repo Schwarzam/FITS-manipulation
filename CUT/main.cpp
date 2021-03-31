@@ -222,11 +222,29 @@ int main(int argc, char ** argv) {
     //       }
     //     }
 
+    float xcenter_original = 0.5*(Xend - Xstart);
+    float ycenter_original = 0.5*(Yend - Ystart);
+
+    cout << xcenter_original << ycenter_original << endl;
 
     //char *section = "8397:8797,6155:6555";
     fits_copy_image_section(fptr, data, section, &status);
 
     // Its necessary to close the file to save changes.
+    char *keyname;
+    keyname = (char*) malloc(32);
+    keyname = "X0TILE";
+
+    char *comments;
+    comments = (char*) malloc(32);
+    comments = "Center position";
+
+    fits_write_key(data, TFLOAT, keyname, &xcenter_original, comments, &status);
+
+    keyname = "Y0TILE";
+    fits_write_key(data, TFLOAT, keyname, &ycenter_original, comments, &status);
+
+
     fits_close_file(data, &status);
 
     fits_close_file(fptr, &status);
