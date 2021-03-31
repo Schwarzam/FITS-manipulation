@@ -8,7 +8,7 @@ Need to compile with lcfitsio that may be installed with:
     
 To compile:
 
-    g++ main.cpp -o main -lcfitsio
+    g++ main.cpp -o main -lcfitsio -w
 
 To run cut:
 
