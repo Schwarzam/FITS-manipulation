@@ -233,7 +233,7 @@ int main(int argc, char ** argv) {
     // Its necessary to close the file to save changes.
     char *keyname;
     keyname = (char*) malloc(32);
-    keyname = "X0TILE";
+    keyname = "X01TILE";
 
     char *comments;
     comments = (char*) malloc(32);
@@ -241,9 +241,14 @@ int main(int argc, char ** argv) {
 
     fits_write_key(data, TFLOAT, keyname, &xcenter_original, comments, &status);
 
-    keyname = "Y0TILE";
+    keyname = "Y01TILE";
     fits_write_key(data, TFLOAT, keyname, &ycenter_original, comments, &status);
 
+    keyname = "X0TILE";
+    fits_write_key(data, TFLOAT, keyname, &xpixx, comments, &status);
+    keyname = "Y0TILE";
+    fits_write_key(data, TFLOAT, keyname, &ypixx, comments, &status);
+    
 
     fits_close_file(data, &status);
 
