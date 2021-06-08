@@ -245,9 +245,11 @@ int main(int argc, char ** argv) {
     fits_write_key(data, TFLOAT, keyname, &ycenter_original, comments, &status);
 
     keyname = "X0TILE";
-    fits_write_key(data, TFLOAT, keyname, &xpixx, comments, &status);
+    float xcenter = xpixx * 1;
+    fits_write_key(data, TFLOAT, keyname, &xcenter, comments, &status);
     keyname = "Y0TILE";
-    fits_write_key(data, TFLOAT, keyname, &ypixx, comments, &status);
+    float ycenter = ypixx * 1;
+    fits_write_key(data, TFLOAT, keyname, &ycenter, comments, &status);
     
 
     fits_close_file(data, &status);
