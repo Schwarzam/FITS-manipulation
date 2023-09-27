@@ -1,4 +1,18 @@
-// Import required libraries
+/*
+Code to cut a fits image around a given position.
+The code takes as input a fits file and a position (RA, DEC) and a size.
+The code returns a fits file with the cut image in the stdout so it doesnt write on disk.
+
+Written by Gustavo Schwarz 
+2023-09-27
+
+gcc -o cut_fits cut_fits.c -lcfitsio
+
+./cut_fits <fits_file> <RA> <DEC> <size>
+
+*/
+
+
 #include "fitsio.h"
 #include <stdio.h>
 
@@ -110,3 +124,4 @@ int main(int argc, char ** argv) {
 
     return 0;
 }
+
