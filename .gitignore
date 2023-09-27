@@ -1,0 +1,4 @@
+*.fits
+CUT/cfitsio_test/proc_STRIPE82-20180814-082204.fits.fz
+CUT/cfitsio_test/a.out
+CUT/cfitsio_test/cut_fits
